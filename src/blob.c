@@ -5,6 +5,9 @@
     //（测试：打印所有路径）
     void *path_printer(char const *path, void *arg) {
     char const *name = (char *)arg;
-    printf("%s from %s\n", path, name);
+    if(strcmp(path,"./gitm.exe")){
+        printf("%s from %s\n", path, name);
+    }
+
     return NULL;
     }
