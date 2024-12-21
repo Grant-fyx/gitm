@@ -21,5 +21,12 @@ int main(int argc, char *argv[]) {
       ERROR("Creation failed or already exist .gitm");
     }
   }
+
+  //commit
+  else if(!strcmp(argv[1],"commit")){
+    char *message=malloc(strlen(argv[2])+1);
+    strcpy(message,argv[2]);
+    commit();
+  }
   return 0;
 }

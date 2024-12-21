@@ -1,5 +1,6 @@
 #include "repository.h"
 #include "gitm.h"
+#include "blob.h"
 
 //init
 int init(){
@@ -33,4 +34,9 @@ int init(){
             return -1;
         };\
     return 0;
+}
+
+//commit
+void commit(){
+    walk_path(".", path_printer, "FYX");
 }

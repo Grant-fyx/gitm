@@ -2,3 +2,6 @@
 
 //init
 int init();
+
+//commit
+void commit();
