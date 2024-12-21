@@ -1,5 +1,5 @@
 #include "gitm.h"
-
+#include "repository.h"
 int main(int argc, char *argv[]) {
   //错误的参数
   if (argc < 2) {
@@ -15,6 +15,11 @@ int main(int argc, char *argv[]) {
   }
 
   //init
-  
+  else if(!strcmp(argv[1],"init")){
+    //返回非零则说明创建失败
+    if(init()){
+      ERROR("Creation failed or already exist .gitm");
+    }
+  }
   return 0;
 }
