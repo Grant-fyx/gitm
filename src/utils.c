@@ -63,7 +63,7 @@ int remove_file(char const *path) {
   //如果文件删除成功，remove函数返回 0
 }
 
-//给定路径下创建一个文件夹（目录）
+//给定路径下创建一个文件夹（目录），成功创建目录时返回0
 int make_directory(char const *path) {
 #if defined(__unix__)
   return mkdir(path, 0755);
@@ -72,10 +72,13 @@ int make_directory(char const *path) {
 #endif
 }
 
+//删除指定路径下的目录（必须为空）
 int remove_directory(char const *path) {
   return rmdir(path);
 }
 
+
+//回调函数
 int walk_path(char const *path, callback_t callback, void *arg) {
   DIR *dir = opendir(path);
   if (dir == NULL) {
@@ -107,6 +110,7 @@ int walk_path(char const *path, callback_t callback, void *arg) {
   return 0;
 }
 
+//计算给定数据的 SHA-1 哈希值，并将结果以十六进制字符串的形式存储到指定的字符数组sum中
 int sha1sum(char *sum, void const *data, size_t size) {
   SHA_CTX const *ctx = (SHA_CTX *)SHA1(data, size, NULL);
   if (ctx == NULL) {
@@ -120,6 +124,7 @@ int sha1sum(char *sum, void const *data, size_t size) {
   return 0;
 }
 
+//获取当前的时间信息，并将其按照指定的格式转换为字符串后存储到传入的字符数组 buf 中
 int timestamp(char *buf) {
   time_t t = time(NULL);
   struct tm *tm = localtime(&t);
