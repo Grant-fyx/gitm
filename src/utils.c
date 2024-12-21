@@ -2,17 +2,23 @@
 
 static char const GITM_DIR[] = ".gitm"; // make sure this is the name of your gitm directory
 
+//判断指定路径所对应的文件或目录是否存在
 bool exists(char const *path) {
   struct stat s;
   return stat(path, &s) == 0;
+  //stat函数表示获取指定路径对应的文件或目录的状态信息（path即为指向该路径的指针），并填充到传入的 struct stat 结构体中。成功返回 0，失败返回 - 1
 }
 
+//实现copy_file函数将一个文件从源路径（src_path）复制到目标路径（dest_path）
 int copy_file(char const *src_path, char const *dest_path) {
+  //这里使用fopen函数以二进制只读模式
   FILE *src = fopen(src_path, "rb");
+  //如果打开失败则输出错误信息
   if (src == NULL) {
     ERROR("failed to open file %s\n", src_path);
     return -1;
   }
+
   char path[PATH_MAX];
   for (char const *slash = strchr(dest_path, '/'); *slash != '\0'; slash = strchr(slash + 1, '/')) {
     strncpy(path, dest_path, slash - dest_path);
@@ -44,14 +50,20 @@ int copy_file(char const *src_path, char const *dest_path) {
   return 0;
 }
 
+
+//文件从原来的目录移动到新的目录下，并同时更改文件名。（也可以不移动只修改文件名或者只移动不修改文件名）
 int rename_file(char const *old_path, char const *new_path) {
   return rename(old_path, new_path);
+  //如果重命名操作成功，rename函数返回 0。
 }
 
+//删除指定路径下的文件
 int remove_file(char const *path) {
   return remove(path);
+  //如果文件删除成功，remove函数返回 0
 }
 
+//给定路径下创建一个文件夹（目录）
 int make_directory(char const *path) {
 #if defined(__unix__)
   return mkdir(path, 0755);
