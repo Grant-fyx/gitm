@@ -4,4 +4,4 @@
 int init();
 
 //commit
-void commit();
+void commit(char * message);

@@ -7,7 +7,7 @@ bool exists(char const *path) {
   struct stat s;
   return stat(path, &s) == 0;
   //stat函数表示获取指定路径对应的文件或目录的状态信息（path即为指向该路径的指针），并填充到传入的 struct stat 结构体中。成功返回 0，失败返回 - 1
-}
+}//存在返回true，不存在返回false
 
 //实现copy_file函数将一个文件从源路径（src_path）复制到目标路径（dest_path）
 int copy_file(char const *src_path, char const *dest_path) {

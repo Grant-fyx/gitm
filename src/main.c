@@ -26,7 +26,7 @@ int main(int argc, char *argv[]) {
   else if(!strcmp(argv[1],"commit")){
     char *message=malloc(strlen(argv[2])+1);
     strcpy(message,argv[2]);
-    commit();
+    commit(message);
   }
   return 0;
 }
