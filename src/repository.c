@@ -71,7 +71,7 @@ void commit(char * message){
     //将STR.ptr指向头指针
     STR.ptr=list.head;
 
-    //为该commit结构体计算哈希值，即其提交号
+    //将该commit结构体序列化，并计算其哈希值，即其提交号
     
 
 }

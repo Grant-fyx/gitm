@@ -1,6 +1,8 @@
 #include "gitm.h"
 #include "blob.h"
 #include "list.h"
+//文件个数
+int NumOfFile=0;
 //获取文件名
 void GetFilename(char *name,const char *path){
     char *ptr=strchr(path,'/');
@@ -16,6 +18,7 @@ void GetFilename(char *name,const char *path){
         struct LL*list=(struct LL*)arg;
     //当读到的路径不是./gitm.exe时
     if(strcmp(path,"./gitm.exe")){
+        NumOfFile++;
         //以二进制打开该文件
         FILE *file1=fopen(path,"rb");
         //在./.gitm/temp下创建一个文件tempfile并复制过去

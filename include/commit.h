@@ -8,4 +8,9 @@ typedef struct B{
     FileStruct *ptr;
 }CommitStruct;
 
+//将提交序列化
+void StoreCommit(CommitStruct *CommitStruct);
+
+
+
 #endif
