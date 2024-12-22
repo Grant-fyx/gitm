@@ -45,7 +45,8 @@ void GetFilename(char *name,const char *path){
             sprintf(findpath,"./.gitm/objects/file/%s",sum);
             //用bool exists查找该文件是否已经存在
                 //如果找到：
-                if(exists(findpath)){            
+                if(exists(findpath)){        
+                    printf("find\n");    
                     //删除tempfile
                     if(remove_file("./.gitm/temp/tempfile")){
                         ERROR("fail to remove tempfile");
@@ -53,6 +54,7 @@ void GetFilename(char *name,const char *path){
                 }
                 //如果没找到：
                 else{
+                    printf("not find\n");
                     //把tempfile移动过去并以哈希值命名
                     if(rename_file("./.gitm/temp/tempfile",findpath)){
                         ERROR("fail to rename the tempfile");
