@@ -32,6 +32,7 @@ void GetFilename(char *name,const char *path){
         fread(data,1,count,file1);
         fclose(file1);
         fclose(file2);
+        printf("%s\n",data);
         if(sha1sum(sum,data,count)){
             ERROR("fail to calculate the hash");
         };

@@ -42,7 +42,7 @@ add_custom_command(
     POST_BUILD
     COMMAND git gc
     COMMAND git add -A --ignore-errors
-    COMMAND git commit --allow-empty -m "add the fread to data."
+    COMMAND git commit --allow-empty -m "test the sha1."
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
     COMMENT "Committing changes automatically."
 )
