@@ -10,7 +10,7 @@ typedef struct B{
 
 //将提交序列化
 void StoreCommit(CommitStruct *CommitStruct);
-
+void Write(char *s,FILE *file1,int *n);
 
 
 #endif

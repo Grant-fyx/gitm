@@ -42,7 +42,7 @@ add_custom_command(
     POST_BUILD
     COMMAND git gc
     COMMAND git add -A --ignore-errors
-    COMMAND git commit --allow-empty -m "refine the store of the commit."
+    COMMAND git commit --allow-empty -m "refine the store of the commit:fixed some bugs and finish the treatment of the parent commit."
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
     COMMENT "Committing changes automatically."
 )

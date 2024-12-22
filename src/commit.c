@@ -2,6 +2,15 @@
 #include "blob.h"
 #include "gitm.h"
 extern int NumOfFile;
+
+void Write(char *s,FILE *file1,int *n){
+    int len=strlen(s);
+    fwrite(&len,4,1,file1);
+    fwrite(s,1,len,file1);
+    *n+=(len+4);
+}
+
+
 //将提交序列化
 void StoreCommit(CommitStruct *CommitStruct){
     //计算文件大小
@@ -9,39 +18,32 @@ void StoreCommit(CommitStruct *CommitStruct){
     //在./.gitm/temp下创建一个文件tempcommit
     FILE *file1=fopen("./.gitm/temp/tempcommit","wb");
     //写入提交消息
-    fwrite(CommitStruct->message,1,strlen(CommitStruct->message),file1);
-    n+=strlen(CommitStruct->message);
+    int len=strlen(CommitStruct->message);
+    fwrite(&len,4,1,file1);
+    fwrite(CommitStruct->message,1,len,file1);
+    n+=(len+1);
     //写入时间戳
-    fwrite(CommitStruct->Time,1,strlen(CommitStruct->Time),file1);
-    n+=strlen(CommitStruct->Time);
+    len=strlen(CommitStruct->Time);
+    fwrite(&len,4,1,file1);
+    fwrite(CommitStruct->Time,1,len,file1);
+    n+=(len+1);
     //写入文件个数
     fwrite(&NumOfFile,sizeof(int),1,file1);
     n+=sizeof(int);
     //写入链表中NumOfFile个文件对象结构体
     FileStruct *ptr=CommitStruct->ptr;
     while(ptr!=NULL){
-        fwrite(ptr,sizeof(FileStruct),1,file1);
-        n+=sizeof(FileStruct);
+        Write(ptr->FilePath,file1,&n);
+        Write(ptr->HASH,file1,&n);
+        Write(ptr->FileName,file1,&n);
         ptr=ptr->next;
     }
-    n+=NumOfFile*sizeof(FileStruct);
     //计算其哈希值
     char *CommitSum=malloc(41);
     fclose(file1);
     file1=fopen("./.gitm/temp/tempcommit","rb");
     char *data=malloc(n+1);
-    //消息
-    fread(data,1,strlen(CommitStruct->message),file1);
-    //时间戳
-    fread(data,1,strlen(CommitStruct->Time),file1);
-    //文件个数
-    fread(data,sizeof(int),1,file1);
-    //NumOfFile个文件对象结构体
-    ptr=CommitStruct->ptr;
-    while(ptr!=NULL){
-        fread(data,sizeof(FileStruct),1,file1);
-        ptr=ptr->next;
-    }
+    fread(data,1,n,file1);
     fclose(file1);
     if(sha1sum(CommitSum,data,n)){
         ERROR("fail to calculate the commit hash");
@@ -56,4 +58,34 @@ void StoreCommit(CommitStruct *CommitStruct){
         if(rename_file("./.gitm/temp/tempcommit", newpath)){
             ERROR("fail to rename the tempcommit");
         };
+    
+
+    //写入父提交的哈希值
+    //如果存在，则写入，并且更新
+    if(exists("./.gitm/refs/head/head")){
+        file1=fopen("./.gitm/refs/head/head","r");
+        //追加模式
+        FILE *file2=fopen(newpath,"a");
+        char buffer[41];
+        fread(buffer,1,40,file1);
+        //写入：
+        fwrite(buffer,1,40,file2);
+        fclose(file1);
+        fclose(file2);
+        //更新
+        file1=fopen("./.gitm/refs/head/head","wb");
+        fwrite(CommitSum,1,40,file1);
+        fclose(file1);
+    }
+    //如果不存在，则创建并写入当前提交哈希值,将当前提交的父提交哈希值记为全0
+    else {
+        file1=fopen("./.gitm/refs/head/head","wb");
+        fwrite(CommitSum,1,40,file1);
+        fclose(file1);
+        FILE *file2=fopen(newpath,"a");
+        char buffer[41]={0};
+        fwrite(buffer,1,40,file2);
+        fclose(file2);
+    }
+
 }
