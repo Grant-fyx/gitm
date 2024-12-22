@@ -55,6 +55,7 @@ void GetFilename(char *name,const char *path){
                 else{
                     //把tempfile移动过去并以哈希值命名
                     if(rename_file("./.gitm/temp/tempfile",findpath)){
+                        printf("%s\n",findpath);
                         ERROR("fail to rename the tempfile");
                     }
                 }

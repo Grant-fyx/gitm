@@ -1,3 +1,6 @@
+#ifndef LIST_H
+#define LIST_H
+
 #include<stdio.h>
 #include <stdlib.h>
 #include "blob.h"
@@ -13,3 +16,6 @@ FileStruct *initnode(const char *path,char *hash,char *name);
 
 //添加节点
 void appendlist(struct LL *list, FileStruct *newp);
+
+
+#endif

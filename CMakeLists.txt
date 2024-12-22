@@ -42,7 +42,7 @@ add_custom_command(
     POST_BUILD
     COMMAND git gc
     COMMAND git add -A --ignore-errors
-    COMMAND git commit --allow-empty -m "Completed the store of the files with their hash, and complete the struct of the commit,but didn't calculate its hash."
+    COMMAND git commit --allow-empty -m "test the rename_file."
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
     COMMENT "Committing changes automatically."
 )
