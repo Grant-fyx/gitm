@@ -26,10 +26,12 @@ void GetFilename(char *name,const char *path){
             fwrite(buffer,1,n,file2);
             count+=n;
         }
-        fclose(file1);
         //计算该文件哈希值
         char *sum=malloc(41);
         char *data=malloc(count+1);
+        fread(data,1,count,file1);
+        fclose(file1);
+        fclose(file2);
         if(sha1sum(sum,data,count)){
             ERROR("fail to calculate the hash");
         };
