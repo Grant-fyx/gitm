@@ -38,10 +38,11 @@ void GetFilename(char *name,const char *path){
             ERROR("fail to calculate the hash");
         };
         free(data);
-        printf("%s",sum);
+        printf("%s\n",sum);
         //获取该文件的名字
         char *name=malloc(20);
         GetFilename(name,path);
+        printf("%s\n",name);
         //利用链表记录该文件对象的信息
         appendlist(list,initnode(path,sum,name));
         //利用该哈希值查找objects/file里面有无该文件
