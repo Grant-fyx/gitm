@@ -12,6 +12,7 @@ void GetFilename(char *name,const char *path){
 
 //实现函数，对遍历到的每一个路径创建blob
     void *path_copy(char const *path, void *arg) {
+
         struct LL*list=(struct LL*)arg;
     //当读到的路径不是./gitm.exe时
     if(strcmp(path,"./gitm.exe")){
@@ -40,7 +41,7 @@ void GetFilename(char *name,const char *path){
         free(data);
         printf("%s\n",sum);
         //获取该文件的名字
-        char *name=malloc(20);
+        char *name=malloc(strlen(path));
         GetFilename(name,path);
         printf("%s\n",name);
         //利用链表记录该文件对象的信息

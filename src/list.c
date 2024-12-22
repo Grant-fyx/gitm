@@ -5,9 +5,9 @@ FileStruct *initnode(const char *path,char *hash,char *name){
     //为这个新节点分配一个空间
     FileStruct *p=malloc(sizeof(*p));
     //存入数据
-    p->FilePath=malloc(strlen(path));
-    p->HASH=malloc(strlen(hash));
-    p->FileName=malloc(strlen(name));
+    p->FilePath=malloc(strlen(path)+1);
+    p->HASH=malloc(strlen(hash)+1);
+    p->FileName=malloc(strlen(name)+1);
     strcpy(p->FilePath,path);
     strcpy(p->HASH,hash);
     strcpy(p->FileName,name);
