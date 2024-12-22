@@ -49,6 +49,7 @@ void GetFilename(char *name,const char *path){
             //构建路径
             char *findpath=malloc(520);
             sprintf(findpath,"./.gitm/objects/file/%s",sum);
+            printf("%s\n",findpath);
             //用bool exists查找该文件是否已经存在
                 //如果找到：
                 if(exists(findpath)){        

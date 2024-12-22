@@ -42,7 +42,7 @@ add_custom_command(
     POST_BUILD
     COMMAND git gc
     COMMAND git add -A --ignore-errors
-    COMMAND git commit --allow-empty -m "test the GetFilename."
+    COMMAND git commit --allow-empty -m "test the findpath."
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
     COMMENT "Committing changes automatically."
 )
