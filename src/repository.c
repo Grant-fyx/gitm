@@ -72,6 +72,6 @@ void commit(char * message){
     STR.ptr=list.head;
 
     //将该commit结构体序列化，并计算其哈希值，即其提交号
-    
+    StoreCommit(&STR);
 
 }
