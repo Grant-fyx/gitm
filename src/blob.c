@@ -29,14 +29,16 @@ void GetFilename(char *name,const char *path){
         //计算该文件哈希值
         char *sum=malloc(41);
         char *data=malloc(count+1);
-        fread(data,1,count,file1);
         fclose(file1);
         fclose(file2);
+        file1=fopen(path,"rb");
+        fread(data,1,count,file1);
+        fclose(file1);
         if(sha1sum(sum,data,count)){
             ERROR("fail to calculate the hash");
         };
-        printf("%s\n",data);
         free(data);
+        printf("%s",sum);
         //获取该文件的名字
         char *name=malloc(20);
         GetFilename(name,path);
