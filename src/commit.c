@@ -49,7 +49,7 @@ void StoreCommit(CommitStruct *CommitStruct){
         ERROR("fail to calculate the commit hash");
     }
     free(data);
-    printf("commit:%s\n",CommitSum);
+    printf("%s\n",CommitSum);
     //将这个tempcommit改名为其哈希值，同时移入commit文件夹
         //构建路径
         char *newpath=malloc(520);

@@ -42,22 +42,18 @@ void GetFilename(char *name,const char *path){
             ERROR("fail to calculate the hash");
         };
         free(data);
-        printf("%s\n",sum);
         //获取该文件的名字
         char *name=malloc(strlen(path));
         GetFilename(name,path);
-        printf("%s\n",name);
         //利用链表记录该文件对象的信息
         appendlist(list,initnode(path,sum,name));
         //利用该哈希值查找objects/file里面有无该文件
             //构建路径
             char *findpath=malloc(520);
             sprintf(findpath,"./.gitm/objects/file/%s",sum);
-            printf("%s\n",findpath);
             //用bool exists查找该文件是否已经存在
                 //如果找到：
-                if(exists(findpath)){        
-                    printf("find\n");    
+                if(exists(findpath)){           
                     //删除tempfile
                     if(remove_file("./.gitm/temp/tempfile")){
                         ERROR("fail to remove tempfile");
@@ -65,13 +61,9 @@ void GetFilename(char *name,const char *path){
                 }
                 //如果没找到：
                 else{
-                    printf("not find\n");
                     //把tempfile移动过去并以哈希值命名
                     if(rename_file("./.gitm/temp/tempfile",findpath)){
                         ERROR("fail to rename the tempfile");
-                    }
-                    else {
-                        printf("success:%s\n",findpath);
                     }
                 }
     }
