@@ -32,6 +32,7 @@ void GetFilename(char *name,const char *path){
         }
         //计算该文件哈希值
         char *sum=malloc(41);
+        memset(sum,0,41);
         char *data=malloc(count+1);
         fclose(file1);
         fclose(file2);

@@ -40,6 +40,7 @@ void StoreCommit(CommitStruct *CommitStruct){
     }
     //计算其哈希值
     char *CommitSum=malloc(41);
+    memset(CommitSum,0,41);
     fclose(file1);
     file1=fopen("./.gitm/temp/tempcommit","rb");
     char *data=malloc(n+1);

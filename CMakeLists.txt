@@ -42,7 +42,7 @@ add_custom_command(
     POST_BUILD
     COMMAND git gc
     COMMAND git add -A --ignore-errors
-    COMMAND git commit --allow-empty -m "completed the printf of the logs and delete some test codes,but didn't deal with the situation of merge."
+    COMMAND git commit --allow-empty -m "memset the sum and the CommitSum."
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
     COMMENT "Committing changes automatically."
 )
