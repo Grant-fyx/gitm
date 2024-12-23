@@ -28,5 +28,11 @@ int main(int argc, char *argv[]) {
     strcpy(message,argv[2]);
     commit(message);
   }
+
+  //log
+  else if(!strcmp(argv[1],"log")){
+    logs();
+  }
+
   return 0;
 }
