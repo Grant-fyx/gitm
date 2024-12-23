@@ -94,10 +94,10 @@ void logs(){
     char **MESSAGE=malloc(count*(sizeof(char*)));
     //循环读入
     for(int i=0;i<count;i++){
-        //读取48个commit
-        *(c+i)=malloc(49);
-        memset(*(c+i),0,49);
-        fread(*(c+i),1,48,file1);
+        //读取47个commit
+        *(c+i)=malloc(48);
+        memset(*(c+i),0,48);
+        fread(*(c+i),1,47,file1);
         //读取flag
         fread((merge+i),4,1,file1);
         //如果不为零，就要读取
