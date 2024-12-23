@@ -73,7 +73,7 @@ void GetFilename(char *name,const char *path){
     }
 
 //实现函数。删除当前路径下的文件
-    void*path_delete(char const *path, void *arg){
+    void path_delete(char const *path, void *arg){
         if(!remove_file(path)){
             ERROR("fail to delete the file in working directory");
         }
