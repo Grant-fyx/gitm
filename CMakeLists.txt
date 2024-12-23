@@ -42,7 +42,7 @@ add_custom_command(
     POST_BUILD
     COMMAND git gc
     COMMAND git add -A --ignore-errors
-    COMMAND git commit --allow-empty -m "modify the format of the commit of the log"
+    COMMAND git commit --allow-empty -m "refine the read of the message"
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
     COMMENT "Committing changes automatically."
 )

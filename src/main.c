@@ -24,8 +24,16 @@ int main(int argc, char *argv[]) {
 
   //commit
   else if(!strcmp(argv[1],"commit")){
-    char *message=malloc(strlen(argv[2])+1);
-    strcpy(message,argv[2]);
+    int len=0;
+    for(int i=2;i<=argc-1;i++){
+      len+=strlen(argv[i]);
+    }
+    char *message=malloc(len+argc);
+    memset(message,0,len+argc);
+    for(int i=2;i<=argc-1;i++){
+      strcat(message,argv[i]);
+      strcat(message," ");
+    }
     commit(message);
   }
 
