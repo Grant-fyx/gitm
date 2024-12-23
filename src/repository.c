@@ -75,3 +75,61 @@ void commit(char * message){
     StoreCommit(&STR);
 
 }
+
+//logs
+void logs(){
+    //首先读取次数
+    FILE *file1=fopen("./.gitm/logs/count","r");
+    int count;
+    fread(&count,4,1,file1);
+    fclose(file1);
+
+    //然后打开logs文件夹读取日志
+    file1=fopen("./.gitm/logs/logs","r");
+    //读取count次
+    char **c=malloc(count*(sizeof(char*)));
+    int *merge=malloc(count*(sizeof(int)));
+    char **MERGE=malloc(count*(sizeof(char*)));
+    char **Date=malloc(count*(sizeof(char*)));
+    char **MESSAGE=malloc(count*(sizeof(char*)));
+    //循环读入
+    for(int i=0;i<count;i++){
+        //读取47个commit
+        *(c+i)=malloc(48);
+        fread(*(c+i),1,47,file1);
+        //读取flag
+        fread((merge+i),4,1,file1);
+        //如果不为零，就要读取
+        if(*(merge+i)!=0){
+            //待补充
+        }
+        //读取Date
+        //读取长度
+        int len;
+        fread(&len,4,1,file1);
+        *(Date+i)=malloc(len+1);
+        fread(*(Date+i),1,len,file1);
+        //读取消息
+        //读取长度
+        fread(&len,4,1,file1);
+        *(MESSAGE+i)=malloc(len+1);
+        fread(*(MESSAGE+i),1,len,file1);
+    }
+    //倒序输出
+    for(int i=count-1;i>=0;i--){
+        //打印commit
+        printf("%s\n",*(c+i));
+        //打印MERGE
+        if(*(merge+i)!=0){
+            //待补充
+        }
+        //打印Date
+        printf("%s\n",*(Date+i));
+        //打印MESSAGE
+        printf("%s\n",*(MESSAGE+i));
+        //换行
+        printf("\n");
+    }
+
+
+}

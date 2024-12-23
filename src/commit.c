@@ -111,5 +111,19 @@ void StoreCommit(CommitStruct *CommitStruct){
     fwrite(&len,4,1,file1);
     fwrite(CommitStruct->message,1,len,file1);
     fclose(file1);
+    //为logs计数
+    file1=fopen("./.gitm/logs/count","a+");
+    int temp;
+    if(fread(&temp,4,1,file1)==0){
+        temp=1;
+        fwrite(&temp,4,1,file1);
+    }
+    else {
+        temp++;
+        fclose(file1);
+        file1=fopen("./.gitm/logs/count","w");
+        fwrite(&temp,4,1,file1);
+        fclose(file1);
+    }
 
 }

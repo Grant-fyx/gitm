@@ -9,5 +9,6 @@ int init();
 
 //commit
 void commit(char * message);
+void logs();
 
 #endif
