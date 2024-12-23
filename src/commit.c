@@ -88,4 +88,28 @@ void StoreCommit(CommitStruct *CommitStruct){
         fclose(file2);
     }
 
+    //commit的时候录入logs
+    file1=fopen("./.gitm/logs/logs","a");
+    //c:commit;flagM:Merge;D:date;in:message
+        //commit
+    char *s=malloc(50);
+    sprintf(s,"commit: %s",CommitSum);
+    fwrite(s,1,47,file1);
+    free(s);
+        //merge:如果flag为0，说明没有
+    int flagM=0;
+    fwrite(&flagM,4,1,file1);
+        //Date:
+    len=strlen(CommitStruct->Time)+6;
+    fwrite(&len,4,1,file1);
+    char *D=malloc(len+1);
+    sprintf(D,"Date: %s",CommitStruct->Time);
+    fwrite(D,1,len,file1);
+    free(D);
+        //message:
+    len=strlen(CommitStruct->message);
+    fwrite(&len,4,1,file1);
+    fwrite(CommitStruct->message,1,len,file1);
+    fclose(file1);
+
 }
