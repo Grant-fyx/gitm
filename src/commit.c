@@ -95,7 +95,7 @@ void StoreCommit(CommitStruct *CommitStruct){
         //commit
     char *s=malloc(50);
     sprintf(s,"commit: %s",CommitSum);
-    fwrite(s,1,47,file1);
+    fwrite(s,1,48,file1);
     free(s);
         //merge:如果flag为0，说明没有
     int flagM=0;

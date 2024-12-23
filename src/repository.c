@@ -95,8 +95,9 @@ void logs(){
     //循环读入
     for(int i=0;i<count;i++){
         //读取47个commit
-        *(c+i)=malloc(48);
-        fread(*(c+i),1,47,file1);
+        *(c+i)=malloc(49);
+        memset(*(c+i),0,49);
+        fread(*(c+i),1,48,file1);
         //读取flag
         fread((merge+i),4,1,file1);
         //如果不为零，就要读取
@@ -108,11 +109,13 @@ void logs(){
         int len;
         fread(&len,4,1,file1);
         *(Date+i)=malloc(len+1);
+        memset(*(Date+1),0,len+1);
         fread(*(Date+i),1,len,file1);
         //读取消息
         //读取长度
         fread(&len,4,1,file1);
         *(MESSAGE+i)=malloc(len+1);
+        memset(*(MESSAGE+1),0,len+1);
         fread(*(MESSAGE+i),1,len,file1);
     }
     //倒序输出
