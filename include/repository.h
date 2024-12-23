@@ -11,4 +11,9 @@ int init();
 void commit(char * message);
 void logs();
 
+//checkout
+void checkout(char *hash);
+
+
+
 #endif

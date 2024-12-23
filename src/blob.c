@@ -71,3 +71,18 @@ void GetFilename(char *name,const char *path){
 
     return NULL;
     }
+
+//实现函数。删除当前路径下的文件
+    void*path_delete(char const *path, void *arg){
+        if(!remove_file(path)){
+            ERROR("fail to delete the file in working directory");
+        }
+    }
+
+//读入文件对象的信息
+void Read(char *s,FILE *file1,int *n){
+    int len=strlen(s);
+    fread(&len,4,1,file1);
+    fwrite(s,1,len,file1);
+    *n+=(len+4);
+}

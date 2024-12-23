@@ -11,23 +11,31 @@ bool exists(char const *path) {
 
 //实现copy_file函数将一个文件从源路径（src_path）复制到目标路径（dest_path）
 int copy_file(char const *src_path, char const *dest_path) {
-  //这里使用fopen函数以二进制只读模式
+  static char const DELIM = '/';
+  char cwd[PATH_MAX];
+  if (getcwd(cwd, PATH_MAX) == NULL) {
+    ERROR("failed to get the current working directory\n");
+    return -1;
+  }
+  char real_path[PATH_MAX];
+  if (dest_path[0] != DELIM) {
+    snprintf(real_path, PATH_MAX, "%s/%s", cwd, dest_path);
+  } else {
+    strncpy(real_path, dest_path, PATH_MAX);
+  }
+  char path[PATH_MAX];
+  for (char const *slash = strchr(real_path + 1, DELIM); slash != NULL; slash = strchr(slash + 1, DELIM)) {
+    strncpy(path, real_path, slash - real_path);
+    path[slash - real_path] = '\0';
+    if (!exists(path) && make_directory(path) != 0) {
+      ERROR("failed to create directory %s\n", path);
+      return -1;
+    }
+  }
   FILE *src = fopen(src_path, "rb");
-  //如果打开失败则输出错误信息
   if (src == NULL) {
     ERROR("failed to open file %s\n", src_path);
     return -1;
-  }
-
-  char path[PATH_MAX];
-  for (char const *slash = strchr(dest_path, '/'); *slash != '\0'; slash = strchr(slash + 1, '/')) {
-    strncpy(path, dest_path, slash - dest_path);
-    path[slash - dest_path] = '\0';
-    if (!exists(path) && make_directory(path) != 0) {
-      ERROR("failed to create directory %s\n", path);
-      fclose(src);
-      return -1;
-    }
   }
   FILE *dest = fopen(dest_path, "wb");
   if (dest == NULL) {
@@ -49,6 +57,8 @@ int copy_file(char const *src_path, char const *dest_path) {
   fclose(dest);
   return 0;
 }
+
+
 
 
 //文件从原来的目录移动到新的目录下，并同时更改文件名。（也可以不移动只修改文件名或者只移动不修改文件名）

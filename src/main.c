@@ -42,5 +42,9 @@ int main(int argc, char *argv[]) {
     logs();
   }
 
+  //checkout
+  else if(!strcmp(argv[1],"checkout")){
+    checkout(argv[2]);
+  }
   return 0;
 }

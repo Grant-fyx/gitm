@@ -133,6 +133,65 @@ void logs(){
         //换行
         printf("\n");
     }
+}
 
+//checkout
+void checkout(char *hash){
+    //检查工作区是否干净
+    //如果有脏改动（待补充）
+    //如果没有脏改动
+        //用回调函数删除当前仓库中内容
+        walk_path(".",path_delete, NULL);
+        //回溯
+            //以二进制只读模式打开对应版本的commit对象
+            char *findpath=malloc(520);
+            sprintf(findpath,"./.gitm/objects/commit/%s",hash);
+            FILE *file1=fopen(findpath,"rb");
+            //开始反序列化
+                //读入提交消息
+                int len;
+                fread(&len,4,1,file1);
+                char *message=malloc(len+1);
+                fread(message,1,len,file1);
+                //读入时间戳
+                fread(&len,4,1,file1);
+                char *Date=malloc(len+1);
+                fread(Date,1,len,file1);
+                //读入文件个数
+                int NumOfFile;
+                fread(&NumOfFile,4,1,file1);
+                //处理NumOfFile个文件
+                for(int i=0;i<NumOfFile;i++){
+                    //读入原路径
+                    fread(&len,4,1,file1);
+                    char *destinationPath=malloc(len+1);
+                    fread(destinationPath,1,len,file1);
+                    //读入HASH
+                    fread(&len,4,1,file1);
+                    char *filehash=malloc(len+1);
+                    fread(filehash,1,len,file1);
+                    //读入文件名
+                    fread(&len,4,1,file1);
+                    char *FileName=malloc(len+1);
+                    fread(FileName,1,len,file1);
+                    //利用哈希值把文件复制到新路径
+                    char *SourcePath=malloc(520);
+                    sprintf(SourcePath,"./.gitm/objects/file/%s",filehash);
+                    if(copy_file(SourcePath,destinationPath)){
+                        ERROR("fail to copy file");
+                    };
+                free(message);
+                free(Date);
+                free(destinationPath);
+                free(filehash);
+                free(FileName);
+                free(SourcePath);
+                fclose(file1);
+                }
+
+    //更新HEAD指针
+    FILE *file2=fopen("./.gitm/refs/head/head","wb");
+    fwrite(hash,1,40,file2);
+    fclose(file2);
 
 }
