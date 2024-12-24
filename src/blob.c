@@ -79,7 +79,7 @@ void GetFilename(char *name,const char *path){
                 ERROR("fail to delete the file '%s' in working directory\n",path);
             }
             else {
-                ERROR("'%s' has been deleted successfully\n");
+                ERROR("'%s' has been deleted successfully\n",path);
             }
         }
         return NULL;
