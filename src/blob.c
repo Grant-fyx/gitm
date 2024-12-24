@@ -73,8 +73,11 @@ void GetFilename(char *name,const char *path){
 
 //实现函数。删除当前路径下的文件
     void *path_delete(char const *path, void *arg){
-        if(!remove_file(path)){
-            ERROR("fail to delete the file in working directory");
+        //当读到的路径不是./gitm.exe时
+        if(strcmp(path,"./gitm.exe")){
+            if(!remove_file(path)){
+                ERROR("fail to delete the file in working directory");
+            }
         }
         return NULL;
     }
