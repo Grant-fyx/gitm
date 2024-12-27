@@ -182,14 +182,14 @@ void checkout(char *hash){
                     if(copy_file(SourcePath,destinationPath)){
                         ERROR("fail to copy file\n");
                     };
+                    free(destinationPath);
+                    free(filehash);
+                    free(FileName);
+                    free(SourcePath);
+                }
+                fclose(file1);
                 free(message);
                 free(Date);
-                free(destinationPath);
-                free(filehash);
-                free(FileName);
-                free(SourcePath);
-                fclose(file1);
-                }
 
     //更新HEAD指针
     FILE *file2=fopen("./.gitm/refs/head/head","wb");
