@@ -143,6 +143,9 @@ int checkout(char *hash){
         ERROR("The working directory is dirty");
         return -1;
     }
+    else {
+        ERROR("The working directory is clean");
+    }
     //如果没有脏改动
         //用回调函数删除当前仓库中内容
         walk_path(".",path_delete, NULL);
