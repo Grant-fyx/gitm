@@ -166,10 +166,12 @@ void checkout(char *hash){
                     fread(&len,4,1,file1);
                     char *destinationPath=malloc(len+1);
                     fread(destinationPath,1,len,file1);
+                    *(destinationPath+len)='\0';
                     //读入HASH
                     fread(&len,4,1,file1);
                     char *filehash=malloc(len+1);
                     fread(filehash,1,len,file1);
+                    *(filehash+len)='\0';
                     ERROR("<filehash:%s>\n",filehash);
                     //读入文件名
                     fread(&len,4,1,file1);
