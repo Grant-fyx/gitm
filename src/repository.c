@@ -181,6 +181,8 @@ void checkout(char *hash){
                     char *SourcePath=malloc(520);
                     sprintf(SourcePath,"./.gitm/objects/file/%s\n",filehash);
                     ERROR("<SourcePath:%s><destinationPath:%s>\n",SourcePath,destinationPath);
+                    FILE *test=fopen(SourcePath,"rb");
+                    if(test==NULL) printf("NULL\n");
                     if(copy_file(SourcePath,destinationPath)){
                         ERROR("fail to copy file\n");
                     };

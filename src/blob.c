@@ -51,6 +51,7 @@ void GetFilename(char *name,const char *path){
         //利用该哈希值查找objects/file里面有无该文件
             //构建路径
             char *findpath=malloc(520);
+            memset(findpath,0,520);
             sprintf(findpath,"./.gitm/objects/file/%s",sum);
             //用bool exists查找该文件是否已经存在
                 //如果找到：
