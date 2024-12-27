@@ -181,8 +181,25 @@ void checkout(char *hash){
                     char *SourcePath=malloc(520);
                     sprintf(SourcePath,"./.gitm/objects/file/%s\n",filehash);
                     ERROR("<SourcePath:%s><destinationPath:%s>\n",SourcePath,destinationPath);
-                    FILE *test=fopen(SourcePath,"rb");
-                    if(test==NULL) printf("NULL\n");
+
+                    //测试
+                    FILE *test1=fopen(SourcePath,"rb");
+                    if(test1==NULL){
+                        printf("test1:NULL\n");
+                    }
+                    else {
+                        printf("test1:success\n");
+                    }
+                    fclose(test1);
+                    FILE *test2=fopen("./.gitm/objects/file/da39a3ee5e6b4b0d3255bfef95601890afd80709","rb");
+                    if(test2==NULL){
+                        printf("test2:NULL\n");
+                    }
+                    else {
+                        printf("test2:success\n");
+                    }
+                    fclose(test2);
+
                     if(copy_file(SourcePath,destinationPath)){
                         ERROR("fail to copy file\n");
                     };
