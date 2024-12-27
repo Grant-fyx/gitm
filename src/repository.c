@@ -179,7 +179,7 @@ void checkout(char *hash){
                     fread(FileName,1,len,file1);
                     //利用哈希值把文件复制到新路径
                     char *SourcePath=malloc(520);
-                    sprintf(SourcePath,"./.gitm/objects/file/%s\n",filehash);
+                    sprintf(SourcePath,"./.gitm/objects/file/%s",filehash);
                     ERROR("<SourcePath:%s><destinationPath:%s>\n",SourcePath,destinationPath);
 
                     //测试
