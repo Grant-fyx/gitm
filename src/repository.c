@@ -172,7 +172,6 @@ void checkout(char *hash){
                     char *filehash=malloc(len+1);
                     fread(filehash,1,len,file1);
                     *(filehash+len)='\0';
-                    ERROR("<filehash:%s>\n",filehash);
                     //读入文件名
                     fread(&len,4,1,file1);
                     char *FileName=malloc(len+1);
@@ -180,7 +179,6 @@ void checkout(char *hash){
                     //利用哈希值把文件复制到新路径
                     char *SourcePath=malloc(520);
                     sprintf(SourcePath,"./.gitm/objects/file/%s",filehash);
-                    ERROR("<SourcePath:%s><destinationPath:%s>\n",SourcePath,destinationPath);
                     if(copy_file(SourcePath,destinationPath)){
                         ERROR("fail to copy file\n");
                     };
