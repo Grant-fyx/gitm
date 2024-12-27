@@ -169,8 +169,8 @@ void checkout(char *hash){
                     //读入HASH
                     fread(&len,4,1,file1);
                     char *filehash=malloc(len+1);
-                    ERROR("<filehash:%s>\n",filehash);
                     fread(filehash,1,len,file1);
+                    ERROR("<filehash:%s>\n",filehash);
                     //读入文件名
                     fread(&len,4,1,file1);
                     char *FileName=malloc(len+1);
