@@ -136,9 +136,13 @@ void logs(){
 }
 
 //checkout
-void checkout(char *hash){
-    //检查工作区是否干净
-    //如果有脏改动（待补充）
+int checkout(char *hash){
+    //检查工作区是否“脏”
+    //如果有脏改动
+    if(dirty()){
+        ERROR("The working directory is dirty");
+        return -1;
+    }
     //如果没有脏改动
         //用回调函数删除当前仓库中内容
         walk_path(".",path_delete, NULL);
@@ -195,5 +199,6 @@ void checkout(char *hash){
     FILE *file2=fopen("./.gitm/refs/head/head","wb");
     fwrite(hash,1,40,file2);
     fclose(file2);
+    return 0;
 
 }

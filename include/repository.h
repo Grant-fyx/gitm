@@ -12,7 +12,7 @@ void commit(char * message);
 void logs();
 
 //checkout
-void checkout(char *hash);
+int checkout(char *hash);
 
 
 

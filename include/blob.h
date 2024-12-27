@@ -17,5 +17,10 @@ typedef struct A FileStruct;
 void GetFilename(char *name,const char *path);
 //删除文件的函数
 void *path_delete(char const *path, void *arg);
+//检查是否有脏改动
+int dirty();
+//实现函数，获取文件里的内容
+void *acquire(char const *path, void *arg);
+
 
 #endif
