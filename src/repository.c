@@ -177,6 +177,7 @@ void checkout(char *hash){
                     //利用哈希值把文件复制到新路径
                     char *SourcePath=malloc(520);
                     sprintf(SourcePath,"./.gitm/objects/file/%s",filehash);
+                    ERROR("<SourcePath:%s><destinationPath:%s>",SourcePath,destinationPath);
                     if(copy_file(SourcePath,destinationPath)){
                         ERROR("fail to copy file");
                     };

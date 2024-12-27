@@ -34,12 +34,12 @@ int copy_file(char const *src_path, char const *dest_path) {
   }
   FILE *src = fopen(src_path, "rb");
   if (src == NULL) {
-    ERROR("failed to open file %s\n", src_path);
+    ERROR("failed to open file in src_path %s\n", src_path);
     return -1;
   }
   FILE *dest = fopen(dest_path, "wb");
   if (dest == NULL) {
-    ERROR("failed to open file %s\n", dest_path);
+    ERROR("failed to open file in dest_path%s\n", dest_path);
     fclose(src);
     return -1;
   }
