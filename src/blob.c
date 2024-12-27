@@ -75,11 +75,9 @@ void GetFilename(char *name,const char *path){
     void *path_delete(char const *path, void *arg){
         //当读到的路径不是./gitm.exe时
         if(strcmp(path,"./gitm.exe")){
-            if(!remove_file(path)){
+            //如果成功
+            if(remove_file(path)){
                 ERROR("fail to delete the file '%s' in working directory\n",path);
-            }
-            else {
-                ERROR("'%s' has been deleted successfully\n",path);
             }
         }
         return NULL;
