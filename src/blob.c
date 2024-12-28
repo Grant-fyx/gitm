@@ -182,6 +182,7 @@ int dirty(){
             *(destinationPath+len)='\0';
             //读入HASH
             fread(&len,4,1,file1);
+            *(headhash+i)=malloc(41);
             fread(*(headhash+i),1,len,file1);
             *(*(headhash+i)+len)='\0';
             //读入文件名
