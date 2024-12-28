@@ -85,6 +85,9 @@ void logs(){
         FILE *headfile=fopen("./.gitm/refs/head/head","rb");
         fread(head,1,40,headfile);
         fclose(headfile);
+        char *s=malloc(50);
+        memset(s,0,50);
+        sprintf(s,"commit %s",head);
     //首先读取次数
     FILE *file1=fopen("./.gitm/logs/count","r");
     int count;
@@ -131,7 +134,7 @@ void logs(){
         //如果flag为零，说明未遇到头指针
         if(flag==0){
             //如果当前是head指针，则改变flag
-            if(!strcmp(*(c+i),head)){
+            if(!strcmp(*(c+i),s)){
                 flag=1;
             }
             else {
