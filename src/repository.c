@@ -78,6 +78,13 @@ void commit(char * message){
 
 //logs
 void logs(){
+
+    //获取头指针
+        char *head=malloc(41);
+        memset(head,0,41);
+        FILE *headfile=fopen("./.gitm/refs/head/head","rb");
+        fread(head,1,40,headfile);
+        fclose(headfile);
     //首先读取次数
     FILE *file1=fopen("./.gitm/logs/count","r");
     int count;
@@ -119,7 +126,18 @@ void logs(){
         fread(*(MESSAGE+i),1,len,file1);
     }
     //倒序输出
+    int flag=0;
     for(int i=count-1;i>=0;i--){
+        //如果flag为零，说明未遇到头指针
+        if(flag==0){
+            //如果当前是head指针，则改变flag
+            if(!strcmp(*(c+i),head)){
+                flag=1;
+            }
+            else {
+                continue;
+            }
+        }
         //打印commit
         printf("%s\n",*(c+i));
         //打印MERGE
