@@ -1044,4 +1044,5 @@ int merge(char *targethash){
         file1=fopen("./.gitm/logs/count","w");
         fwrite(&temp,4,1,file1);
         fclose(file1);
+        return 0;
 }
