@@ -583,6 +583,7 @@ int merge(char *targethash){
     //将自己写入祖先提交数组
     *(ancestorOfTarget+count)=malloc(41);
     *(*(ancestorOfTarget+count)+40)='\0';
+    strcpy(*(ancestorOfTarget+count),targethash);
     count++;
     //从head提交开始往前找，每次都遍历
     //利用递归回溯head提交
