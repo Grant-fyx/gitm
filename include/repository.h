@@ -14,6 +14,7 @@ void logs();
 //checkout
 int checkout(char *hash);
 
-
+//merge
+int merge(char *targethash);
 
 #endif

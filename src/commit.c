@@ -61,8 +61,9 @@ void StoreCommit(CommitStruct *CommitStruct){
         };
     
 
-    //写入父提交的哈希值
-    //如果存在，则写入，并且更新
+    //写入父提交的两个哈希值
+    //如果存在，则写入，并且更新(一个为HEAD，一个为0)
+
     if(exists("./.gitm/refs/head/head")){
         file1=fopen("./.gitm/refs/head/head","r");
         //追加模式
@@ -70,7 +71,9 @@ void StoreCommit(CommitStruct *CommitStruct){
         char buffer[41];
         fread(buffer,1,40,file1);
         //写入：
-        fwrite(buffer,1,40,file2);
+        fwrite(buffer,1,40,file2);//写入有效父提交
+        char zero[40]={0};
+        fwrite(zero,1,40,file2);//写入零提交
         fclose(file1);
         fclose(file2);
         //更新
@@ -78,14 +81,14 @@ void StoreCommit(CommitStruct *CommitStruct){
         fwrite(CommitSum,1,40,file1);
         fclose(file1);
     }
-    //如果不存在，则创建并写入当前提交哈希值,将当前提交的父提交哈希值记为全0
+    //如果不存在，则创建并写入当前提交哈希值,将当前提交的两个父提交哈希值记为全0
     else {
         file1=fopen("./.gitm/refs/head/head","wb");
         fwrite(CommitSum,1,40,file1);
         fclose(file1);
         FILE *file2=fopen(newpath,"a");
-        char buffer[41]={0};
-        fwrite(buffer,1,40,file2);
+        char buffer[81]={0};
+        fwrite(buffer,1,80,file2);
         fclose(file2);
     }
 

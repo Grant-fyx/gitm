@@ -1,5 +1,6 @@
 #include "gitm.h"
 #include "repository.h"
+#include "blob.h"
 int main(int argc, char *argv[]) {
   //错误的参数
   if (argc < 2) {
@@ -45,6 +46,16 @@ int main(int argc, char *argv[]) {
   //checkout
   else if(!strcmp(argv[1],"checkout")){
     checkout(argv[2]);
+  }
+
+  //merge
+  else if(!strcmp(argv[1],"merge")){
+    //先看工作区是否干净
+    if(dirty()){
+        ERROR("The working directory is dirty");
+        return -1;
+    }
+    merge(argv[2]);
   }
   return 0;
 }
