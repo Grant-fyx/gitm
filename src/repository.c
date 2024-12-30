@@ -320,6 +320,7 @@ int getfile(Getfile **arr,char *hash){
             fread(&len,4,1,file1);
             (*(arr+i))->name=malloc(len+1);
             fread((*(arr+i))->name,1,len,file1);
+            *((*(arr+i))->name+len)='\0';
             free(destinationPath);
         }
         free(message);
@@ -598,7 +599,6 @@ int merge(char *targethash){
     // }
     //*(commonancestor+min)即为最近公共祖先的哈希值
     int min=0;
-    ERROR("LCA:%s",*(commonancestor+min));
     char *LCA=malloc(41);
     *(LCA+40)='\0';
     strcpy(LCA,*(commonancestor+min));
