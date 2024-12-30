@@ -411,77 +411,81 @@ void logs(){
         FILE *headfile=fopen("./.gitm/refs/head/head","rb");
         fread(head,1,40,headfile);
         fclose(headfile);
-        char *s=malloc(50);
-        memset(s,0,50);
-        sprintf(s,"commit %s",head);
-    //首先读取次数
-    FILE *file1=fopen("./.gitm/logs/count","r");
-    int count;
-    fread(&count,4,1,file1);
-    fclose(file1);
+    //开始打印日志
+        while(strlen(head)!=0){
+            //打开该文件
+            char *findpath=malloc(520);
+            sprintf(findpath,"./.gitm/objects/commit/%s",head);
+            FILE *file1=fopen(findpath,"rb");
+            //开始反序列化
+                //读入提交消息
+                int len;
+                fread(&len,4,1,file1);
+                char *message=malloc(len+1);
+                memset(message,0,len+1);
+                fread(message,1,len,file1);
+                //读入时间戳
+                fread(&len,4,1,file1);
+                char *Date=malloc(len+1);
+                memset(Date,0,len+1);
+                fread(Date,1,len,file1);
+                len=strlen(Date)+6;
+                char *D=malloc(len+1);
+                sprintf(D,"Date: %s",Date);
+                //读入文件个数
+                int NumOfFile;
+                fread(&NumOfFile,4,1,file1);
+                //处理NumOfFile个文件
+                for(int i=0;i<NumOfFile;i++){
+                    //读入原路径
+                    fread(&len,4,1,file1);
+                    char *destinationPath=malloc(len+1);
+                    fread(destinationPath,1,len,file1);
+                    *(destinationPath+len)='\0';
+                    //读入HASH
+                    fread(&len,4,1,file1);
+                    char *filehash=malloc(len+1);
+                    fread(filehash,1,len,file1);
+                    *(filehash+len)='\0';
+                    //读入文件名
+                    fread(&len,4,1,file1);
+                    char *FileName=malloc(len+1);
+                    fread(FileName,1,len,file1);
+                    free(destinationPath);
+                    free(filehash);
+                    free(FileName);
+                }
 
-    //然后打开logs文件夹读取日志
-    file1=fopen("./.gitm/logs/logs","r");
-    //读取count次
-    char **c=malloc(count*(sizeof(char*)));
-    int *merge=malloc(count*(sizeof(int)));
-    char **MERGE=malloc(count*(sizeof(char*)));
-    char **Date=malloc(count*(sizeof(char*)));
-    char **MESSAGE=malloc(count*(sizeof(char*)));
-    //循环读入
-    for(int i=0;i<count;i++){
-        //读取47个commit
-        *(c+i)=malloc(48);
-        memset(*(c+i),0,48);
-        fread(*(c+i),1,47,file1);
-        //读取flag
-        fread((merge+i),4,1,file1);
-        //如果不为零，就要读取
-        if(*(merge+i)!=0){
-            *(MERGE+i)=malloc(30);
-            memset(*(MERGE+i),0,30);
-            fread(*(MERGE+i),1,22,file1);
+                char *s=malloc(50);
+                sprintf(s,"commit %s",head);
+
+                //读入两个父提交哈希值
+                memset(head,0,41);
+                fread(head,1,40,file1);
+                char *other=malloc(41);     
+                fread(other,1,40,file1);                           
+                //开始打印
+                //打印commit
+                printf("%s\n",s);
+                //如果第二个不为零，就要打印merge
+                if(strlen(other)!=0){
+                    char *merge=malloc(30);
+                    char *sheadhash=malloc(8);
+                    char *stargethash=malloc(8);
+                    strncpy(sheadhash,head,7);
+                    strncpy(stargethash,other,7);
+                    *(sheadhash+7)='\0';
+                    *(stargethash+7)='\0';
+                    sprintf(merge,"Merge: %s %s",sheadhash,stargethash);     
+                    printf("%s\n",merge);               
+                }
+                //打印时间
+                printf("%s\n",D);
+                //打印消息
+                printf("%s",message);
+                //换行
+                printf("\n");
         }
-        //读取Date
-        //读取长度
-        int len;
-        fread(&len,4,1,file1);
-        *(Date+i)=malloc(len+1);
-        memset(*(Date+i),0,len+1);
-        fread(*(Date+i),1,len,file1);
-        //读取消息
-        //读取长度
-        fread(&len,4,1,file1);
-        *(MESSAGE+i)=malloc(len+1);
-        memset(*(MESSAGE+i),0,len+1);
-        fread(*(MESSAGE+i),1,len,file1);
-    }
-    //倒序输出
-    int flag=0;
-    for(int i=count-1;i>=0;i--){
-        //如果flag为零，说明未遇到头指针
-        if(flag==0){
-            //如果当前是head指针，则改变flag
-            if(!strcmp(*(c+i),s)){
-                flag=1;
-            }
-            else {
-                continue;
-            }
-        }
-        //打印commit
-        printf("%s\n",*(c+i));
-        //打印MERGE
-        if(*(merge+i)!=0){
-            printf("%s\n",*(MERGE+i));
-        }
-        //打印Date
-        printf("%s\n",*(Date+i));
-        //打印MESSAGE
-        printf("%s\n",*(MESSAGE+i));
-        //换行
-        printf("\n");
-    }
 }
 
 //checkout
