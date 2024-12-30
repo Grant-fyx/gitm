@@ -586,17 +586,18 @@ int merge(char *targethash){
     //利用递归回溯head提交
     char **commonancestor=malloc(52*8);
     tracing(headhash,ancestorOfTarget,commonancestor);
-    //现在获得了commonancestor,需要一步步回溯target，记录步数
-    int array[52]={0};
-    for(int k=0;k<countofancestor;k++){
-        array[k]=step(*(commonancestor+k),targethash);
-    }
-    //寻找最小步数的公共祖先
-    int min=0;
-    for(int k=1;k<countofancestor;k++){
-        min=array[min]<array[k]?min:k;
-    }
+    // //现在获得了commonancestor,需要一步步回溯target，记录步数
+    // int array[52]={0};
+    // for(int k=0;k<countofancestor;k++){
+    //     array[k]=step(*(commonancestor+k),targethash);
+    // }
+    // //寻找最小步数的公共祖先
+    // int min=0;
+    // for(int k=1;k<countofancestor;k++){
+    //     min=array[min]<array[k]?min:k;
+    // }
     //*(commonancestor+min)即为最近公共祖先的哈希值
+    int min=0;
     char *LCA=malloc(41);
     *(LCA+40)='\0';
     strcpy(LCA,*(commonancestor+min));
