@@ -604,10 +604,12 @@ int merge(char *targethash){
     //如果公共祖先是target,即HEAD 比目标新，则无事发生，合并结束
     if(!strcmp(*(commonancestor+min),targethash)){
         ERROR("head is outcome,nothing happened");
+        return 0;
     }
     //如果公共祖先是head提交,则切换到target提交
     else if(!strcmp(*(commonancestor+min),headhash)){
         checkout(targethash);
+        return 0;
     }
     //都不是的话执行下一步
 
