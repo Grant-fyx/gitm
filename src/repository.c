@@ -571,6 +571,7 @@ int merge(char *targethash){
     *(headhash+40)='\0';
     FILE* HEAD=fopen("./.gitm/refs/head/head","rb");
     fread(headhash,1,40,HEAD);
+    fclose(HEAD);
     //HEAD 就是目标，无事发生，合并结束
     if(!strcmp(targethash,headhash)){
         ERROR("the target is head.");
@@ -908,6 +909,7 @@ int merge(char *targethash){
                     fread(&len,4,1,file1);
                     char *FileName=malloc(len+1);
                     fread(FileName,1,len,file1);
+                    *(FileName+len)='\0';
                     //当文件名不在DiffBetLT和DiffBetLH时，才会反序列化
                     if((bsearch(&FileName,DiffBetLT,numofdifft,8,compare)==NULL)&&(bsearch(&FileName,DiffBetLH,numofdiffh,8,compare)==NULL)){
                         char *SourcePath=malloc(520);
