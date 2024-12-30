@@ -53,7 +53,7 @@ int main(int argc, char *argv[]) {
     //先看工作区是否干净
     if(dirty()){
         ERROR("The working directory is dirty");
-        return -1;
+        return 0;
     }
     merge(argv[2]);
   }
