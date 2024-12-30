@@ -598,6 +598,7 @@ int merge(char *targethash){
     // }
     //*(commonancestor+min)即为最近公共祖先的哈希值
     int min=0;
+    ERROR("LCA:%s",*(commonancestor+min));
     char *LCA=malloc(41);
     *(LCA+40)='\0';
     strcpy(LCA,*(commonancestor+min));
