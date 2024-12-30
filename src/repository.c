@@ -482,7 +482,7 @@ void logs(){
                 //打印时间
                 printf("%s\n",D);
                 //打印消息
-                printf("%s",message);
+                printf("%s\n",message);
                 //换行
                 printf("\n");
         }
