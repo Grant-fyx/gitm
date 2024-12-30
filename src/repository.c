@@ -207,73 +207,97 @@ void tracing(char *hash,char **AncestorOfTarget,char **commonancestor){
 }
 
 //递归函数回溯记录步数
-// int step(char *s,char *hash){
-//     int step=100;
-//     //先比较自己
-//     if(!strcmp(s,hash)){
-//         step=0;
-//         return step;
-//     }
+int steps(char *s,char *hash){
+    int step=-1;
+    //先比较自己（即最基本的终止条件）
+    if(!strcmp(s,hash)){
+        step=0;  
+        return step;
+    }
 
-// //有了当前节点的哈希值
-//     //打开该文件并开始反序列化
-//     char *findpath=malloc(520);
-//     sprintf(findpath,"./.gitm/objects/commit/%s",hash);
-//     FILE *file1=fopen(findpath,"rb");
-//     //开始反序列化
-//         //读入提交消息
-//         int len;
-//         fread(&len,4,1,file1);
-//         char *message=malloc(len+1);
-//         fread(message,1,len,file1);
-//         //读入时间戳
-//         fread(&len,4,1,file1);
-//         char *Date=malloc(len+1);
-//         fread(Date,1,len,file1);
-//         //读入文件个数
-//         int NumOfFile;
-//         fread(&NumOfFile,4,1,file1);
-//         //处理NumOfFile个文件
-//         for(int i=0;i<NumOfFile;i++){        
-//             //读入原路径
-//             fread(&len,4,1,file1);
-//             char *destinationPath=malloc(len+1);
-//             fread(destinationPath,1,len,file1);
-//             *(destinationPath+len)='\0';
-//             //读入HASH
-//             fread(&len,4,1,file1);
-//             char *filehash=malloc(len+1);
-//             fread(filehash,1,len,file1);
-//             *(filehash+len)='\0';
-//             //读入文件名
-//             fread(&len,4,1,file1);
-//             char *FileName=malloc(len+1);
-//             fread(FileName,1,len,file1);
-//             free(destinationPath);
-//             free(filehash);
-//             free(FileName);
-//         }
-//         free(message);
-//         free(Date);    
+//有了当前节点的哈希值
+    //打开该文件并开始反序列化
+    char *findpath=malloc(520);
+    sprintf(findpath,"./.gitm/objects/commit/%s",hash);
+    FILE *file1=fopen(findpath,"rb");
+    //开始反序列化
+        //读入提交消息
+        int len;
+        fread(&len,4,1,file1);
+        char *message=malloc(len+1);
+        fread(message,1,len,file1);
+        //读入时间戳
+        fread(&len,4,1,file1);
+        char *Date=malloc(len+1);
+        fread(Date,1,len,file1);
+        //读入文件个数
+        int NumOfFile;
+        fread(&NumOfFile,4,1,file1);
+        //处理NumOfFile个文件
+        for(int i=0;i<NumOfFile;i++){        
+            //读入原路径
+            fread(&len,4,1,file1);
+            char *destinationPath=malloc(len+1);
+            fread(destinationPath,1,len,file1);
+            *(destinationPath+len)='\0';
+            //读入HASH
+            fread(&len,4,1,file1);
+            char *filehash=malloc(len+1);
+            fread(filehash,1,len,file1);
+            *(filehash+len)='\0';
+            //读入文件名
+            fread(&len,4,1,file1);
+            char *FileName=malloc(len+1);
+            fread(FileName,1,len,file1);
+            free(destinationPath);
+            free(filehash);
+            free(FileName);
+        }
+        free(message);
+        free(Date);    
 
-//     //读取两个哈希值
-//     //第一个
-//         char *hash1=malloc(41);
-//         memset(hash1,0,41);
-//         fread(hash1,1,40,file1);
-//     //第二个
-//         char *hash2=malloc(41);
-//         memset(hash2,0,41);
-//         fread(hash2,1,40,file1);
-
-//         //如果都为零，说明到底了
-//         if(strlen(hash1)==0&&strlen(hash2)==0){
-//             return 1;
-//         }     
-
-//         //如果都不是零   
-
-// }
+    //读取两个哈希值
+    //第一个
+        char *hash1=malloc(41);
+        memset(hash1,0,41);
+        fread(hash1,1,40,file1);
+        int step1;
+        //如果不为零,则继续往下找
+        if(strlen(hash1)!=0){
+            step1=steps(s,hash1);
+        }
+        //否则返回-1
+        else {
+            step1=-1;
+        }
+    //第二个
+        char *hash2=malloc(41);
+        memset(hash2,0,41);
+        fread(hash2,1,40,file1);
+        fclose(file1);
+        int step2;
+        //如果不为零,则继续往下找
+        if(strlen(hash2)!=0){
+            step2=steps(s,hash2);
+        }
+        //否则返回-1
+        else {
+            step2=-1;
+        }
+        //判断最终返回值
+        if((step1==-1)&&(step2==-1)){
+            return -1;
+        }
+        else if((step1==-1)&&(step2!=-1)){
+            return (step2+1);
+        }
+        else if ((step1!=-1)&&(step2==-1)){
+            return (step1+1);
+        }
+        else {
+            return ((step1<step2?step1:step2)+1);
+        }
+}
 
 //获取LCA,target,head所对应文件,返回值是文件个数
 //定义结构体
@@ -593,18 +617,17 @@ int merge(char *targethash){
     //利用递归回溯head提交
     char **commonancestor=malloc(52*8);
     tracing(headhash,ancestorOfTarget,commonancestor);
-    // //现在获得了commonancestor,需要一步步回溯target，记录步数
-    // int array[52]={0};
-    // for(int k=0;k<countofancestor;k++){
-    //     array[k]=step(*(commonancestor+k),targethash);
-    // }
-    // //寻找最小步数的公共祖先
-    // int min=0;
-    // for(int k=1;k<countofancestor;k++){
-    //     min=array[min]<array[k]?min:k;
-    // }
-    //*(commonancestor+min)即为最近公共祖先的哈希值
+    //现在获得了commonancestor,需要一步步回溯target，记录步数
+    int array[52]={0};
+    for(int k=0;k<countofancestor;k++){
+        array[k]=steps(*(commonancestor+k),targethash);
+    }
+    //寻找最小步数的公共祖先
     int min=0;
+    for(int k=1;k<countofancestor;k++){
+        min=array[min]<array[k]?min:k;
+    }
+    //*(commonancestor+min)即为最近公共祖先的哈希值
     char *LCA=malloc(41);
     *(LCA+40)='\0';
     strcpy(LCA,*(commonancestor+min));
