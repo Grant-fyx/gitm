@@ -708,7 +708,7 @@ int merge(char *targethash){
                     *(DiffLHhash+numofLHhash)=malloc(41);
                     strcpy(*(DiffBetLH+numofdiffh),(*(fileofhead+i))->name);
                     strcpy(*(DiffLHhash+numofLHhash),(*(fileofhead+i))->hash);
-                    numofLThash++;
+                    numofLHhash++;
                     numofdiffh++;
                 }
             }
