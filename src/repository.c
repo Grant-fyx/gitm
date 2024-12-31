@@ -746,7 +746,7 @@ int merge(char *targethash){
             int numofdeleteLH=0;
             for(int i=0;i<numofLCA;i++){
                 int flags=0;
-                for(int j=0;j<numofdiffh;j++){
+                for(int j=0;j<numofhead;j++){
                     //如果找到了，说明存在，则不计入
                     if(strcmp((*(fileofLCA+i))->name,(*(fileofhead+j))->name)==0){
                         flags=1;
