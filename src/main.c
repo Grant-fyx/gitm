@@ -11,7 +11,7 @@ int main(int argc, char *argv[]) {
   //version
   if (!strcmp(argv[1], "version")) {
     printf("%s",
-#include "../icon.txt"
+#include "../like.txt"
     );
   }
 
